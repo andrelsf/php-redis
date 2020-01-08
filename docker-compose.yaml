@@ -1,0 +1,37 @@
+version: "3.5"
+
+networks:
+  net-phalcon-redis:
+    name: php-phalcon-redis
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.71.0.0/24
+
+services:
+  php_phalcon:
+    build: .docker/nginx_unit
+    env_file:
+      - ./app/.env
+    volumes:
+      - ./app:/usr/src/app
+    ports:
+      - "80:8081"
+    links:
+      - dbredis
+    restart:
+      on-failure
+    networks: 
+      net-phalcon-redis:
+        ipv4_address: "172.71.0.2"
+
+  dbredis:
+    image: redis:alpine
+    expose: 
+      - 6379
+    restart: 
+      on-failure
+    networks: 
+      net-phalcon-redis:
+        ipv4_address: "172.71.0.3"

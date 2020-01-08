@@ -1,0 +1,19 @@
+{    
+    "listeners": {
+        "*:8081": {
+            "pass": "applications/php_phalcon" 
+        } 
+    },    
+    "applications": {
+        "php_phalcon": { 
+            "type": "php",
+            "processes": 4,
+            "root": "/usr/src/app/public",
+            "options": {
+                "admin": {
+                    "memory_limit": "256M"
+                }
+            }
+        } 
+    }
+}
